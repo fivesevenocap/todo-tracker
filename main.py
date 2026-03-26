@@ -1,6 +1,6 @@
 from storage import save_tasks, load_tasks
 from utils import get_valid_index
-from tasks import add_task, show_tasks, delete_tasks, toggle_tasks, show_filtered, rename_tasks, find_tasks, show_stats
+from tasks import add_task, show_tasks, delete_tasks, toggle_tasks, show_filtered, rename_tasks, find_tasks, show_stats, show_by_priority, change_priority, show_overdue_tasks, show_tasks_for_today
 def main():
     tasks = load_tasks()
     while True:
@@ -13,7 +13,12 @@ def main():
         print("7 - Показать отсортированные по датам задачи")
         print("8 - Переименовать задачу")
         print("9 - Найти задачу по слову")
-        print("10 - Показать статистику задач")
+        print("10 - Фильтр задач по приоритету")
+        print("11 - Показать статистику задач")
+        print("12 - Показать задачи по приоритету (high → medium → low)")
+        print("13 - Изменить приоритет задачи")
+        print("14 - Показать просроченные задачи")
+        print("15 - Показать задачи на сегодня")
         print("0 - Выход")
         choice = input("Ваш выбор: ")
         if choice == "1":
@@ -35,7 +40,26 @@ def main():
         elif choice == "9":
             find_tasks(tasks)
         elif choice == "10":
+            mapping = {"1": "high", "2": "medium", "3": "low"}
+            print("1 - Показать задачи с высоким приоритетом")
+            print("2 - Показать задачи со средним приоритетом")
+            print("3 - Показать задачи с низким приоритетом")
+            ch = input("Ваш выбор: ")
+            priority = mapping.get(ch)
+            if priority:
+                show_by_priority(tasks, priority)
+            else:
+                print("Неверная команда")
+        elif choice == "11":
             show_stats(tasks)
+        elif choice == "12":
+            show_tasks(tasks,sort_by_priority = True)
+        elif choice == "13":
+            change_priority(tasks)
+        elif choice == "14":
+            show_overdue_tasks(tasks)
+        elif choice == "15":
+            show_tasks_for_today(tasks)
         elif choice == "0":
             break
         else:
